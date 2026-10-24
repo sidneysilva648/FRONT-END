@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Pokédex Retrô: consulte os Pokémon das quatro primeiras gerações (1996–2006) com dados em tempo real da PokéAPI.">
+  <title>Pokédex Retrô</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===== CABEÇALHO ===== -->
+  <header class="topo">
+    <div class="topo__conteudo">
+      <a class="marca" href="#inicio" aria-label="Pokédex Retrô, voltar ao início">
+        <span class="marca__luz" aria-hidden="true"></span>
+        <span class="marca__nome">Pokédex Retrô</span>
+      </a>
+      <nav class="menu" aria-label="Navegação principal">
+        <a href="#inicio">Início</a>
+        <a href="#historia">A série</a>
+        <a href="#pokedex">Pokédex</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== HERO: tela estilo Game Boy com um Pokémon sorteado da API ===== -->
+    <section class="hero" id="inicio">
+      <div class="hero__texto">
+        <h1>A Pokédex de quem cresceu nos anos 90 e 2000</h1>
+        <p>
+          Os 493 Pokémon das quatro primeiras gerações, de Red &amp; Green (1996) a Diamond &amp; Pearl (2006),
+          com dados carregados em tempo real da PokéAPI. Pesquise pelo nome, filtre por geração ou tipo
+          e marque seus favoritos.
+        </p>
+        <a class="botao botao--principal" href="#pokedex">Abrir a Pokédex</a>
+      </div>
+
+      <div class="aparelho" aria-label="Pokémon sorteado">
+        <div class="aparelho__tela">
+          <div class="lcd" id="lcd" aria-live="polite">
+            <p class="lcd__mensagem">Carregando...</p>
+          </div>
+        </div>
+        <div class="aparelho__controles">
+          <span class="aparelho__cruz" aria-hidden="true"></span>
+          <button class="botao botao--aparelho" id="btn-sortear" type="button">Sortear outro</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== HISTÓRIA: linha do tempo das gerações ===== -->
+    <section class="historia" id="historia">
+      <div class="historia__conteudo">
+      <h2>Uma geração de cada vez</h2>
+      <p class="secao__intro">
+        Pokémon começou como um jogo de Game Boy no Japão e virou anime, cartas e brinquedos.
+        No Brasil, o anime chegou em 1999 e marcou toda uma geração de crianças.
+      </p>
+      <ol class="linha-tempo">
+        <li>
+          <span class="linha-tempo__ano">1996</span>
+          <h3>Geração I — Kanto</h3>
+          <p>Red &amp; Green no Game Boy. 151 Pokémon, de Bulbasaur a Mew.</p>
+        </li>
+        <li>
+          <span class="linha-tempo__ano">1997</span>
+          <h3>O anime</h3>
+          <p>Ash e Pikachu estreiam na TV japonesa. Dois anos depois, o desenho chega ao Brasil.</p>
+        </li>
+        <li>
+          <span class="linha-tempo__ano">1999</span>
+          <h3>Geração II — Johto</h3>
+          <p>Gold &amp; Silver trazem 100 novos Pokémon, ciclo de dia e noite e os tipos Aço e Sombrio.</p>
+        </li>
+        <li>
+          <span class="linha-tempo__ano">2002</span>
+          <h3>Geração III — Hoenn</h3>
+          <p>Ruby &amp; Sapphire no Game Boy Advance, com habilidades e batalhas em dupla.</p>
+        </li>
+        <li>
+          <span class="linha-tempo__ano">2006</span>
+          <h3>Geração IV — Sinnoh</h3>
+          <p>Diamond &amp; Pearl no Nintendo DS, fechando a era com 493 Pokémon.</p>
+        </li>
+      </ol>
+      </div>
+    </section>
+
+    <!-- ===== POKÉDEX: área obrigatória dos cards ===== -->
+    <section class="pokedex" id="pokedex">
+      <h2>Pokédex</h2>
+
+      <form class="filtros" id="filtros" role="search" onsubmit="return false">
+        <label class="campo campo--busca">
+          <span>Nome ou número</span>
+          <input type="search" id="busca" placeholder="Ex.: pikachu ou 25" autocomplete="off">
+        </label>
+        <label class="campo">
+          <span>Geração</span>
+          <select id="filtro-geracao">
+            <option value="todas">Todas (1–493)</option>
+            <option value="1">I — Kanto (1996)</option>
+            <option value="2">II — Johto (1999)</option>
+            <option value="3">III — Hoenn (2002)</option>
+            <option value="4">IV — Sinnoh (2006)</option>
+          </select>
+        </label>
+        <label class="campo">
+          <span>Tipo</span>
+          <select id="filtro-tipo">
+            <option value="todos">Todos os tipos</option>
+          </select>
+        </label>
+        <label class="alternar">
+          <input type="checkbox" id="so-favoritos">
+          <span>Só favoritos</span>
+        </label>
+      </form>
+
+      <p class="contador" id="contador" aria-live="polite"></p>
+
+      <!-- Container VAZIO: os cards são criados pelo JavaScript (js/cards.js) -->
+      <div class="grade" id="grade-cards"></div>
+
+      <p class="aviso" id="aviso" hidden></p>
+      <button class="botao botao--carregar" id="btn-carregar" type="button" hidden>Carregar mais Pokémon</button>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p>Dados e imagens fornecidos pela <a href="https://pokeapi.co/" target="_blank" rel="noopener">PokéAPI</a>.</p>
+    <p>Projeto acadêmico sem fins lucrativos — UniFECAF, Web Development Front-End. Pokémon é marca registrada de seus respectivos donos.</p>
+    <p><a href="https://github.com/sidneysilva648/front-end" target="_blank" rel="noopener">Código-fonte no GitHub</a></p>
+  </footer>
+
+  <!-- Scripts na ordem de dependência (scripts clássicos: funciona até abrindo o arquivo direto no navegador) -->
+  <script src="js/api.js"></script>
+  <script src="js/cards.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
